@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject achievementUI;
     [SerializeField] private GameObject taskbarUI;
     [SerializeField] private GameObject explorerUI;
+    [SerializeField] private GameObject startSceneUI;
 
     private void Awake()
     {
@@ -30,6 +31,9 @@ public class UIManager : MonoBehaviour
         HideAllUI();
         switch (uiName)
         {
+            case "StartScene":
+                startSceneUI.SetActive(true);
+                break;
             case "Login":
                 loginUI.SetActive(true);
                 break;
