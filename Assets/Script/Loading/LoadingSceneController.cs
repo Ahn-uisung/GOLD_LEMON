@@ -1,27 +1,25 @@
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 using UnityEngine.SceneManagement;
+
 public class LoadingSceneController : MonoBehaviour
 {
     static string nextScene;
+    [SerializeField] private Image progressBar;
 
-    [SerializeField]
-    Image progressBar;
-
-    public static void LoadScene(string SceneName)
+    public static void LoadScene(string sceneName)
     {
-        nextScene = SceneName;
-        SceneManager.LoadScene("LoadingScenes"); 
+        nextScene = sceneName;
+        SceneManager.LoadScene("LoadingScene");
     }
 
-    void Start()
+    private void Start()
     {
         StartCoroutine(LoadSceneProcess());
     }
 
-    IEnumerator LoadSceneProcess()
+    private IEnumerator LoadSceneProcess()
     {
         AsyncOperation op = SceneManager.LoadSceneAsync(nextScene);
         op.allowSceneActivation = false;
@@ -31,23 +29,20 @@ public class LoadingSceneController : MonoBehaviour
         {
             yield return null;
 
-            if(op.progress < 0.9f)
+            if (op.progress < 0.9f)
             {
                 progressBar.fillAmount = op.progress;
-
             }
             else
             {
                 timer += Time.unscaledDeltaTime;
                 progressBar.fillAmount = Mathf.Lerp(0.9f, 1f, timer);
-                if(progressBar.fillAmount >= 1f)
+                if (progressBar.fillAmount >= 1f)
                 {
                     op.allowSceneActivation = true;
                     yield break;
                 }
             }
         }
-    
     }
-
 }
